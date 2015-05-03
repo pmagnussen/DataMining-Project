@@ -34,7 +34,7 @@ public class Agent implements Comparable<Agent> {
 
     @Override
     public String toString() {
-        return this.name + " earned " + this.moneyEarned;
+        return this.name;
     }
 
     @Override

@@ -44,7 +44,7 @@ public class Main {
                     if (values[0].equalsIgnoreCase("81158") || values[0].equalsIgnoreCase("5077") || values[0].equalsIgnoreCase("105355")) {
                         add = false;
                     }
-                    
+
                     // Get the movie id
                     // If the values is an empty String, set the values to -1
                     if (values[0].equalsIgnoreCase("") || values[0].equalsIgnoreCase("NA") || values[0].equalsIgnoreCase("N/A")) {
@@ -58,7 +58,7 @@ public class Main {
                     if (values[1].equalsIgnoreCase("") || values[1].equalsIgnoreCase("NA") || values[1].equalsIgnoreCase("N/A")) {
                         movie.title = "NO VALUE";
                     } else {
-                        movie.title = values[1];
+                        movie.title = values[1].trim();
                     }
 
                     // Get the movie length
@@ -74,7 +74,7 @@ public class Main {
                     if (values[5].equalsIgnoreCase("") || values[5].equalsIgnoreCase("NA") || values[5].equalsIgnoreCase("N/A") || values[5].equalsIgnoreCase("NOT RATED") && values[5].equalsIgnoreCase("APPROVED")) {
                         add = false;
                     } else {
-                        movie.mpaaRating = values[5];
+                        movie.mpaaRating = values[5].trim();
                     }
 
                     // Get the release date
@@ -82,7 +82,7 @@ public class Main {
                     if (values[6].equalsIgnoreCase("") || values[6].equalsIgnoreCase("NA") || values[6].equalsIgnoreCase("N/A")) {
                         add = false;
                     } else {
-                        movie.releaseDate = values[6];
+                        movie.releaseDate = values[6].trim();
                     }
 
                     // Get the budget
@@ -125,33 +125,33 @@ public class Main {
                         movie.awards = "NO VALUE";
                         // Otherwise, parse the int.
                     } else {
-                        movie.awards = values[23];
+                        movie.awards = values[23].trim();
                     }
 
                     // Get actor 1
                     // If the value is not an empty String or invalid
                     if (!values[26].equalsIgnoreCase("") && !values[26].equalsIgnoreCase("NA") && !values[26].equalsIgnoreCase("N/A")) {
-                        movie.actors.add(new Agent(values[26]));
+                        movie.actors.add(new Agent(values[26].trim()));
                     }
-                    
+
                     // Get actor 2
                     // If the value is not an empty String or invalid
                     if (!values[27].equalsIgnoreCase("") && !values[27].equalsIgnoreCase("NA") && !values[27].equalsIgnoreCase("N/A")) {
-                        movie.actors.add(new Agent(values[27]));
+                        movie.actors.add(new Agent(values[27].trim()));
                     }
-                    
+
                     // Get actor 3
                     // If the value is not an empty String or invalid
                     if (!values[28].equalsIgnoreCase("") && !values[28].equalsIgnoreCase("NA") && !values[28].equalsIgnoreCase("N/A")) {
-                        movie.actors.add(new Agent(values[28]));
+                        movie.actors.add(new Agent(values[28].trim()));
                     }
-                    
+
                     // Get actor 4
                     // If the value is not an empty String or invalid
                     if (!values[29].equalsIgnoreCase("") && !values[29].equalsIgnoreCase("NA") && !values[29].equalsIgnoreCase("N/A")) {
-                        movie.actors.add(new Agent(values[29]));
+                        movie.actors.add(new Agent(values[29].trim()));
                     }
-                    
+
                     // If no actors were added, don't add the movie
                     if (movie.actors.size() == 0) {
                         add = false;
@@ -164,17 +164,17 @@ public class Main {
                         String directors = values[30];
                         String[] directorsArray = directors.split(",");
                         ArrayList<String> directorsList = new ArrayList<String>(Arrays.asList(directorsArray));
-                        
+
                         // Remove any whitespaces
                         HashSet<Agent> directorsListNoWhiteSpaces = new HashSet<>();
-                        for(String director : directorsList) {
+                        for (String director : directorsList) {
                             directorsListNoWhiteSpaces.add(new Agent(director.trim()));
                         }
-                        
+
                         if (directorsListNoWhiteSpaces.size() == 0) {
                             add = false;
                         } else {
-                           movie.directors = directorsListNoWhiteSpaces; 
+                            movie.directors = directorsListNoWhiteSpaces;
                         }
 
                     } else {
@@ -184,34 +184,33 @@ public class Main {
                     // Get writer 1
                     // If the data is not an empty String or invalid data
                     if (!(values[31].equalsIgnoreCase("")) && !(values[31].equalsIgnoreCase("NA")) && !(values[31].equalsIgnoreCase("N/A"))) {
-                        movie.writers.add(new Agent(values[31]));
+                        movie.writers.add(new Agent(values[31].trim()));
                     }
 
                     // Get writer 2
                     // If the data is not an empty String or invalid data
                     if (!(values[32].equalsIgnoreCase("")) && !(values[32].equalsIgnoreCase("NA")) && !(values[32].equalsIgnoreCase("N/A"))) {
-                        movie.writers.add(new Agent(values[32]));
+                        movie.writers.add(new Agent(values[32].trim()));
                     }
-                    
+
                     // If no writers were added, don't add the movie
                     if (movie.writers.size() == 0) {
                         add = false;
                     }
 
                     // Column 33 is the income - skip it
-                    
                     // Get genre 1
                     // If the data is not an empty String or invalid data
                     if (!values[34].equalsIgnoreCase("") && !values[34].equalsIgnoreCase("NA") && !values[34].equalsIgnoreCase("N/A")) {
-                        movie.genres.add(values[34]);
+                        movie.genres.add(values[34].trim());
                     }
 
                     // Get genre 2
                     // If the data is not an empty String or invalid data
                     if (!values[35].equalsIgnoreCase("") && !values[35].equalsIgnoreCase("NA") && !values[35].equalsIgnoreCase("N/A")) {
-                        movie.genres.add(values[35]);
+                        movie.genres.add(values[35].trim());
                     }
-                    
+
                     // If no genres were added, don't add the movie
                     if (movie.genres.size() == 0) {
                         add = false;
@@ -220,15 +219,15 @@ public class Main {
                     // Get studio 1
                     // If the data is not an empty String or invalid data
                     if (!values[36].equalsIgnoreCase("") && !values[36].equalsIgnoreCase("NA") && !values[36].equalsIgnoreCase("N/A")) {
-                        movie.studios.add(new Agent(values[36]));
+                        movie.studios.add(new Agent(values[36].trim()));
                     }
 
                     // Get studio 2
                     // If the data is not an empty String or invalid data
                     if (!values[37].equalsIgnoreCase("") && !values[37].equalsIgnoreCase("NA") && !values[37].equalsIgnoreCase("N/A")) {
-                        movie.studios.add(new Agent(values[37]));
+                        movie.studios.add(new Agent(values[37].trim()));
                     }
-                    
+
                     // If no studios were added, don't add the movie
                     if (movie.studios.size() == 0) {
                         add = false;
@@ -237,15 +236,15 @@ public class Main {
                     // Get language 1
                     // If the data is not an empty String or invalid data
                     if (!values[38].equalsIgnoreCase("") && !values[38].equalsIgnoreCase("NA") && !values[38].equalsIgnoreCase("N/A")) {
-                        movie.languages.add(values[38]);
+                        movie.languages.add(values[38].trim());
                     }
 
                     // Get language 2
                     // If the data is not an empty String or invalid data
                     if (!values[39].equalsIgnoreCase("") && !values[39].equalsIgnoreCase("NA") && !values[39].equalsIgnoreCase("N/A")) {
-                        movie.languages.add(values[39]);
+                        movie.languages.add(values[39].trim());
                     }
-                    
+
                     // If no languages were added, don't add the movie
                     if (movie.languages.size() == 0) {
                         add = false;
@@ -254,19 +253,19 @@ public class Main {
                     // Get country 1
                     // If the data is not an empty String or invalid data
                     if (!values[40].equalsIgnoreCase("") && !values[40].equalsIgnoreCase("NA") && !values[40].equalsIgnoreCase("N/A")) {
-                        movie.countries.add(values[40]);
+                        movie.countries.add(values[40].trim());
                     }
 
                     // Get country 2
                     // If the data is not an empty String or invalid data
                     if (!values[41].equalsIgnoreCase("") && !values[41].equalsIgnoreCase("NA") && !values[41].equalsIgnoreCase("N/A")) {
-                        movie.countries.add(values[41]);
+                        movie.countries.add(values[41].trim());
                     }
-                    
+
                     if (movie.countries.size() == 0) {
                         add = false;
                     }
-                    
+
                     if (add) {
                         result.add(movie);
                     }
@@ -285,33 +284,66 @@ public class Main {
 
         // Remove any movies where the lenghts are "too" short or "too" long
         movies = Cleaner.findLengthOutliers(movies);
-        
+
         // Remove any movies with invalid MPAA ratings
         movies = Cleaner.cleanMPAARating(movies);
-        
+
         // Remove any movies where the budget is too small or too big        
         movies = Cleaner.cleanBudgetOutliers(movies);
-        
+
         BigInteger revenueMarketSum = Cleaner.calculateRevenue(movies);
-        
+
         // Rank actors
         ArrayList<Agent> actors = Cleaner.rankActors(movies);
         actors.sort(Agent.RANK);
-        
+
         // Rank directors
         ArrayList<Agent> directors = Cleaner.rankDirectors(movies);
         directors.sort(Agent.MOVIE_INVOLEMENTS);
-        
+
         // Rank writers
         ArrayList<Agent> writers = Cleaner.rankWriters(movies);
         writers.sort(Agent.MOVIE_INVOLEMENTS);
-        
+
         // Rank studios
         ArrayList<Agent> studios = Cleaner.rankStudios(movies);
         studios.sort(Agent.MOVIE_INVOLEMENTS);
-        
+
         for (Agent actor : actors) {
             System.out.println(actor.name + " rank: " + actor.rank);
         }
+
+        csv.write("movie_samples_cleaned.csv", new CSVWriteProc() {
+            public void process(CSVWriter out) {
+                out.writeNext("id", "title", "lenght", "MPAA rating", "Release date", "Budget", "Revenue", "IMDB ID", "TMDB ID", "Awards", "Actors", "Directors", "Writers", "Studios", "Languages", "Genres", "Countries");
+                
+                for(Movie mov : movies) {
+                    out.writeNext(
+                            String.valueOf(mov.id),
+                            mov.title,
+                            String.valueOf(mov.length),
+                            mov.mpaaRating,
+                            mov.releaseDate,
+                            String.valueOf(mov.budget),
+                            String.valueOf(mov.revenue),
+                            String.valueOf(mov.imdbID),
+                            String.valueOf(mov.tmdbID),
+                            mov.awards,
+                            
+                            // Remove the brackets that surround Collections
+                            removeBrackets(mov.actors.toString()),
+                            removeBrackets(mov.directors.toString()),
+                            removeBrackets(mov.writers.toString()),
+                            removeBrackets(mov.studios.toString()),
+                            removeBrackets(mov.languages.toString()),
+                            removeBrackets(mov.genres.toString()),
+                            removeBrackets(mov.countries.toString()));
+                }
+            }
+        });
+    }
+    
+    private static String removeBrackets(String input) {
+        return input.substring(1, input.length()-1);
     }
 }
