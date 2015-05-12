@@ -331,7 +331,7 @@ public class Main {
                         "Budget", "Revenue", "IMDB ID", "TMDB ID", "Actor1", "Actor2",
                         "Actor3", "Actor4", "Actor1rank", "Actor2rank", "Actor3rank",
                         "Actor4rank", "Director", "DirectorRank",
-                        "Writer1", "Writer2", "Writer1Rank", "Writer2Rank", "Studio", "StudioRank", "Language", "Genre", "Country");
+                        "Writer1", "Writer1rank", "Writer2", "Writer2Rank", "Studio", "StudioRank", "Language", "Genre", "Country");
 
                 for (Movie mov : movies) {
                     if (mov.add) {
