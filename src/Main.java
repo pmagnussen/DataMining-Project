@@ -42,7 +42,7 @@ public class Main {
                 if (values.length == 42) {
                     // There's one movie that has to be removed
                     if (values[0].equalsIgnoreCase("81158") || values[0].equalsIgnoreCase("5077") || values[0].equalsIgnoreCase("105355")) {
-                        add = false;
+                        movie.add = false;
                     }
 
                     // Get the movie id
@@ -64,7 +64,7 @@ public class Main {
                     // Get the movie length
                     // If the values is an empty String or invalid, don't add the movie
                     if (values[3].equalsIgnoreCase("") || values[3].equalsIgnoreCase("NA") || values[3].equalsIgnoreCase("N/A")) {
-                        add = false;
+                        movie.add = false;
                     } else {
                         movie.length = Integer.parseInt(values[3]);
                     }
@@ -72,7 +72,7 @@ public class Main {
                     // Get the MPAA rating
                     // If the values is an empty String or invalid, don't add the movie
                     if (values[5].equalsIgnoreCase("") || values[5].equalsIgnoreCase("NA") || values[5].equalsIgnoreCase("N/A") || values[5].equalsIgnoreCase("NOT RATED") && values[5].equalsIgnoreCase("APPROVED")) {
-                        add = false;
+                        movie.add = false;
                     } else {
                         movie.mpaaRating = values[5].trim();
                     }
@@ -80,7 +80,7 @@ public class Main {
                     // Get the release date
                     // If the values is an empty String or invalid, don't add the movie
                     if (values[6].equalsIgnoreCase("") || values[6].equalsIgnoreCase("NA") || values[6].equalsIgnoreCase("N/A")) {
-                        add = false;
+                        movie.add = false;
                     } else {
                         movie.releaseDate = values[6].trim();
                     }
@@ -88,7 +88,7 @@ public class Main {
                     // Get the budget
                     // If the values is an empty String or invalid, don't add the movie
                     if (values[11].equalsIgnoreCase("") || values[11].equalsIgnoreCase("0") || values[11].equalsIgnoreCase("NA") || values[11].equalsIgnoreCase("N/A")) {
-                        add = false;
+                        movie.add = false;
                     } else {
                         movie.budget = Long.parseLong(values[11]);
                     }
@@ -96,7 +96,7 @@ public class Main {
                     // Get the revenue
                     // If the values is an empty String or invalid, don't add the movie
                     if (values[15].equalsIgnoreCase("") || values[15].equalsIgnoreCase("0") || values[15].equalsIgnoreCase("NA") || values[15].equalsIgnoreCase("N/A")) {
-                        add = false;
+                        movie.add = false;
                     } else {
                         movie.revenue = Long.parseLong(values[15]);
                     }
@@ -154,7 +154,7 @@ public class Main {
 
                     // If no actors were added, don't add the movie
                     if (movie.actors.size() < 4) {
-                        add = false;
+                        movie.add = false;
                     }
 
                     // Get directors
@@ -172,18 +172,18 @@ public class Main {
                         }
 
                         if (directorsListNoWhiteSpaces.size() == 0) {
-                            add = false;
+                            movie.add = false;
                         } else {
                             movie.directors = directorsListNoWhiteSpaces;
                         }
 
                     } else {
-                        add = false;
+                        movie.add = false;
                     }
-                    
+
                     // If no actors were added, don't add the movie
                     if (movie.directors.size() < 1) {
-                        add = false;
+                        movie.add = false;
                     }
 
                     // Get writer 1
@@ -200,7 +200,7 @@ public class Main {
 
                     // If no writers were added, don't add the movie
                     if (movie.writers.size() < 2) {
-                        add = false;
+                        movie.add = false;
                     }
 
                     // Column 33 is the income - skip it
@@ -218,7 +218,7 @@ public class Main {
 
                     // If no genres were added, don't add the movie
                     if (movie.genres.size() == 0) {
-                        add = false;
+                        movie.add = false;
                     }
 
                     // Get studio 1
@@ -235,7 +235,7 @@ public class Main {
 
                     // If no studios were added, don't add the movie
                     if (movie.studios.size() < 1) {
-                        add = false;
+                        movie.add = false;
                     }
 
                     // Get language 1
@@ -252,7 +252,7 @@ public class Main {
 
                     // If no languages were added, don't add the movie
                     if (movie.languages.size() == 0) {
-                        add = false;
+                        movie.add = false;
                     }
 
                     // Get country 1
@@ -268,16 +268,17 @@ public class Main {
                     }
 
                     if (movie.countries.size() == 0) {
-                        add = false;
+                        movie.add = false;
                     }
 
-                    if (add) {
-                        result.add(movie);
-                    }
+                    //if (add) {
+                    result.add(movie);
+                    //}
+                    
                 }
             }
         });
-
+        System.out.println("Result size: " + result.size());
         return result;
     }
 
@@ -320,8 +321,10 @@ public class Main {
         //studios.sort(Agent.MOVIE_INVOLEMENTS);
 
         System.out.println("Movies count: " + movies.size());
+        
 
         csv.write("movie_samples_cleaned.csv", new CSVWriteProc() {
+            int size = 0;
             public void process(CSVWriter out) {
                 //out.writeNext("id", "title", "lenght", "MPAA rating", "Release date", "Budget", "Revenue", "IMDB ID", "TMDB ID", "Awards", "Actors", "Directors", "Writers", "Studios", "Languages", "Genres", "Countries");
                 out.writeNext("id", "title", "lenght", "MPAA rating", "Release date",
@@ -329,19 +332,11 @@ public class Main {
                         "Actor3", "Actor4", "Actor1rank", "Actor2rank", "Actor3rank",
                         "Actor4rank", "Director", "DirectorRank",
                         "Writer1", "Writer2", "Writer1Rank", "Writer2Rank", "Studio", "StudioRank", "Language", "Genre", "Country");
-                
-                
-                for(Movie mov : movies) {
-                    
-//                    String studioRank;
-//                    if (mov.studios.get(0).movieInvolvements == null) {
-//                        System.out.println("Nullpointer: " + mov.title);
-//                        studioRank = "";
-//                    }  else {
-//                        studioRank = mov.studios.get(0).movieInvolvements.toString();
-//                    }
-                    
-                    out.writeNext(
+
+                for (Movie mov : movies) {
+                    if (mov.add) {
+                        size++;
+                        out.writeNext(
                             String.valueOf(mov.id),
                             mov.title,
                             String.valueOf(mov.length),
@@ -351,16 +346,15 @@ public class Main {
                             String.valueOf(mov.revenue),
                             String.valueOf(mov.imdbID),
                             String.valueOf(mov.tmdbID),
-                            
                             // Remove the brackets that surround Collections
-//                            removeBrackets(mov.actors.get(0)),
-//                            removeBrackets(mov.directors.toString()),
-//                            removeBrackets(mov.writers.toString()),
-//                            removeBrackets(mov.studios.toString()),
-//                            removeBrackets(mov.languages.toString()),
-//                            removeBrackets(mov.genres.toString()),
-//                            removeBrackets(mov.countries.toString()));
-                            
+                            //                            removeBrackets(mov.actors.get(0)),
+                            //                            removeBrackets(mov.directors.toString()),
+                            //                            removeBrackets(mov.writers.toString()),
+                            //                            removeBrackets(mov.studios.toString()),
+                            //                            removeBrackets(mov.languages.toString()),
+                            //                            removeBrackets(mov.genres.toString()),
+                            //                            removeBrackets(mov.countries.toString()));
+
                             mov.actors.get(0).toString(),
                             mov.actors.get(1).toString(),
                             mov.actors.get(2).toString(),
@@ -369,27 +363,34 @@ public class Main {
                             mov.actors.get(1).movieInvolvements.toString(),
                             mov.actors.get(2).movieInvolvements.toString(),
                             mov.actors.get(3).movieInvolvements.toString(),
-                            
                             mov.directors.get(0).toString(),
                             mov.directors.get(0).movieInvolvements.toString(),
-                            
                             mov.writers.get(0).toString(),
                             mov.writers.get(0).movieInvolvements.toString(),
                             mov.writers.get(1).toString(),
                             mov.writers.get(1).movieInvolvements.toString(),
-                            
                             mov.studios.get(0).toString(),
                             mov.studios.get(0).movieInvolvements.toString(),
-                            
                             mov.languages.get(0),
                             mov.genres.get(0),
                             mov.countries.get(0));
+                    }
+
+//                    String studioRank;
+//                    if (mov.studios.get(0).movieInvolvements == null) {
+//                        System.out.println("Nullpointer: " + mov.title);
+//                        studioRank = "";
+//                    }  else {
+//                        studioRank = mov.studios.get(0).movieInvolvements.toString();
+//                    }
+                    
                 }
+                System.out.println("Size: " + size);
             }
         });
     }
-    
+
     private static String removeBrackets(String input) {
-        return input.substring(1, input.length()-1);
+        return input.substring(1, input.length() - 1);
     }
 }

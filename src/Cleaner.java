@@ -13,13 +13,17 @@ public class Cleaner {
 
         // For every movie
         for (Movie m : dirtyList) {
-            if (m.mpaaRating.equalsIgnoreCase("X")) {
+            if (m.mpaaRating != null) {
+                if (m.mpaaRating.equalsIgnoreCase("X")) {
                 m.mpaaRating = "NC-17";
             }
 
             if (isValidMPAARating(m.mpaaRating)) {
                 result.add(m);
             }
+            }
+            
+            
         }
 
         return result;
