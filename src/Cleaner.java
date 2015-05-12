@@ -1,6 +1,7 @@
 
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
@@ -176,12 +177,45 @@ public class Cleaner {
 
         return foundActors;
     }
+    
+        public static ArrayList<Movie> rankActors2(ArrayList<Movie> movies) {
+        ArrayList<Agent> foundActors = new ArrayList<>();
+
+        for (Movie movie : movies) {
+            for (Agent actor : movie.actors) {
+                boolean foundInList = false;
+                for (Agent foundActor : foundActors) {
+                    if (foundActor.name.equalsIgnoreCase(actor.name)) {
+                        foundActor.movieInvolvements++;
+                        foundInList = true;
+                        break;
+                    }
+                }
+                if (!foundInList) {
+                    foundActors.add(new Agent(actor.name, 1));
+                }
+            }
+        }
+        
+        HashMap<String, Integer> actorsHashMap = new HashMap<>();
+        for (Agent actor : foundActors) {
+            actorsHashMap.put(actor.name, actor.movieInvolvements);
+        }
+        
+        for (Movie movie : movies) {
+            for (Agent actor : movie.actors) {
+                actor.movieInvolvements = actorsHashMap.get(actor.name);
+            }
+        }
+
+        return movies;
+    }
 
     public static ArrayList<Agent> rankDirectors(ArrayList<Movie> movies) {
         ArrayList<Agent> directors = new ArrayList<>();
 
         for (Movie movie : movies) {
-            HashSet<Agent> directorsInMovie = movie.directors;
+            ArrayList<Agent> directorsInMovie = movie.directors;
 
             for (Agent director : directorsInMovie) {
 
@@ -214,11 +248,47 @@ public class Cleaner {
         return directors;
     }
     
+    public static ArrayList<Movie> rankDirectors2(ArrayList<Movie> movies) {
+        ArrayList<Agent> directors = new ArrayList<>();
+
+        for (Movie movie : movies) {
+            ArrayList<Agent> directorsInMovie = movie.directors;
+
+            for (Agent director : directorsInMovie) {
+
+                boolean foundInList1 = false;
+                for (Agent actor : directors) {
+                    if (actor.name.equalsIgnoreCase(director.name)) {
+                        actor.movieInvolvements++;
+                        foundInList1 = true;
+                        break;
+                    }
+                }
+                if (!foundInList1) {
+                    directors.add(new Agent(director.name, 1));
+                }
+            }
+        }
+        
+        HashMap<String, Integer> directorsHashMap = new HashMap<>();
+        for (Agent director : directors) {
+            directorsHashMap.put(director.name, director.movieInvolvements);
+        }
+        
+        for (Movie movie : movies) {
+            for (Agent director : movie.directors) {
+                director.movieInvolvements = directorsHashMap.get(director.name);
+            }
+        }
+
+        return movies;
+    }
+    
     public static ArrayList<Agent> rankWriters(ArrayList<Movie> movies) {
         ArrayList<Agent> foundWriters = new ArrayList<>();
 
         for (Movie movie : movies) {
-            HashSet<Agent> writersInMovie = movie.writers;
+            ArrayList<Agent> writersInMovie = movie.writers;
             for (Agent writer : writersInMovie) {
                 boolean foundInList = false;
                 for (Agent foundWriter : foundWriters) {
@@ -248,12 +318,46 @@ public class Cleaner {
         }
         return foundWriters;
     }
+    
+    public static ArrayList<Movie> rankWriters2(ArrayList<Movie> movies) {
+        ArrayList<Agent> foundWriters = new ArrayList<>();
+
+        for (Movie movie : movies) {
+            ArrayList<Agent> writersInMovie = movie.writers;
+            for (Agent writer : writersInMovie) {
+                boolean foundInList = false;
+                for (Agent foundWriter : foundWriters) {
+                    if (foundWriter.name.equalsIgnoreCase(writer.name)) {
+                        foundWriter.movieInvolvements++;
+                        foundInList = true;
+                        break;
+                    }
+                }
+                if (!foundInList) {
+                    foundWriters.add(new Agent(writer.name, 1));
+                }
+            }
+        }
+        
+        HashMap<String, Integer> writersHashMap = new HashMap<>();
+        for (Agent writer : foundWriters) {
+            writersHashMap.put(writer.name, writer.movieInvolvements);
+        }
+        
+        for (Movie movie : movies) {
+            for (Agent writer : movie.writers) {
+                writer.movieInvolvements = writersHashMap.get(writer.name);
+            }
+        }
+
+        return movies;
+    }
 
     public static ArrayList<Agent> rankStudios(ArrayList<Movie> movies) {
         ArrayList<Agent> foundStudios = new ArrayList<>();
 
         for (Movie movie : movies) {
-            HashSet<Agent> studiosWithMovies = movie.studios;
+            ArrayList<Agent> studiosWithMovies = movie.studios;
             for (Agent studio : studiosWithMovies) {
                 boolean foundInList = false;
                 for (Agent foundStudio : foundStudios) {
@@ -282,6 +386,81 @@ public class Cleaner {
 
         }
         return foundStudios;
+    }
+    
+    public static ArrayList<Movie> rankStudios2(ArrayList<Movie> movies) {
+        ArrayList<Agent> foundStudios = new ArrayList<>();
+
+        for (Movie movie : movies) {
+            ArrayList<Agent> studiosWithMovies = movie.studios;
+            for (Agent studio : studiosWithMovies) {
+                boolean foundInList = false;
+                for (Agent foundStudio : foundStudios) {
+                    if (foundStudio.name.equalsIgnoreCase(studio.name)) {
+                        foundStudio.movieInvolvements++;
+                        foundInList = true;
+                        break;
+                    }
+                }
+                if (!foundInList) {
+                    foundStudios.add(new Agent(studio.name, 1));
+                }
+            }
+        }
+        
+        HashMap<String, Integer> studiosHashMap = new HashMap<>();
+        for (Agent studio : foundStudios) {
+            studiosHashMap.put(studio.name, studio.movieInvolvements);
+        }
+        
+        for (Movie movie : movies) {
+            for (Agent studio : movie.studios) {
+                studio.movieInvolvements = studiosHashMap.get(studio.name);
+            }
+        }
+
+        return movies;
+    }
+    
+    public static ArrayList<Movie> rankStudios3(ArrayList<Movie> movies) {
+        ArrayList<Agent> foundStudios = new ArrayList<>();
+
+        for (Movie movie : movies) {
+            ArrayList<Agent> studiosInMovies = movie.studios;
+            for (Agent studio : studiosInMovies) {
+                boolean foundInList = false;
+                for (Agent foundStudio : foundStudios) {
+                    if (foundStudio.name.equalsIgnoreCase(studio.name)) {
+                        foundStudio.movieInvolvements++;
+                        foundInList = true;
+                        break;
+                    }
+                }
+                if (!foundInList) {
+                    foundStudios.add(new Agent(studio.name, 1));
+                }
+            }
+        }
+        
+        HashMap<String, Integer> studiosInHashMap = new HashMap<>();
+        for (Agent studio : foundStudios) {
+            studiosInHashMap.put(studio.name, studio.movieInvolvements);
+        }
+        
+        for (Movie movie : movies) {
+            for (Agent studio : movie.studios) {
+                if (studiosInHashMap.get(studio.name) != null) {
+                    studio.movieInvolvements = studiosInHashMap.get(studio.name);
+                } else {
+                    studio.movieInvolvements = 1;
+                }
+                
+                //studio.movieInvolvements = studiosInHashMap.get(studio.name);
+                
+            }
+        }
+
+        return movies;
     }
     
     public static void cleanChars(String text) {

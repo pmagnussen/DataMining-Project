@@ -153,7 +153,7 @@ public class Main {
                     }
 
                     // If no actors were added, don't add the movie
-                    if (movie.actors.size() == 0) {
+                    if (movie.actors.size() < 4) {
                         add = false;
                     }
 
@@ -166,7 +166,7 @@ public class Main {
                         ArrayList<String> directorsList = new ArrayList<String>(Arrays.asList(directorsArray));
 
                         // Remove any whitespaces
-                        HashSet<Agent> directorsListNoWhiteSpaces = new HashSet<>();
+                        ArrayList<Agent> directorsListNoWhiteSpaces = new ArrayList<>();
                         for (String director : directorsList) {
                             directorsListNoWhiteSpaces.add(new Agent(director.trim()));
                         }
@@ -178,6 +178,11 @@ public class Main {
                         }
 
                     } else {
+                        add = false;
+                    }
+                    
+                    // If no actors were added, don't add the movie
+                    if (movie.directors.size() < 1) {
                         add = false;
                     }
 
@@ -194,7 +199,7 @@ public class Main {
                     }
 
                     // If no writers were added, don't add the movie
-                    if (movie.writers.size() == 0) {
+                    if (movie.writers.size() < 2) {
                         add = false;
                     }
 
@@ -229,7 +234,7 @@ public class Main {
                     }
 
                     // If no studios were added, don't add the movie
-                    if (movie.studios.size() == 0) {
+                    if (movie.studios.size() < 1) {
                         add = false;
                     }
 
@@ -295,29 +300,47 @@ public class Main {
 
         // Rank actors
         ArrayList<Agent> actors = Cleaner.rankActors(movies);
-        actors.sort(Agent.RANK);
+        movies = Cleaner.rankActors2(movies);
+        //actors.sort(Agent.RANK);
 
         // Rank directors
         ArrayList<Agent> directors = Cleaner.rankDirectors(movies);
-        directors.sort(Agent.MOVIE_INVOLEMENTS);
+        movies = Cleaner.rankDirectors2(movies);
+        //directors.sort(Agent.MOVIE_INVOLEMENTS);
 
         // Rank writers
         ArrayList<Agent> writers = Cleaner.rankWriters(movies);
-        writers.sort(Agent.MOVIE_INVOLEMENTS);
+        movies = Cleaner.rankWriters2(movies);
+        //writers.sort(Agent.MOVIE_INVOLEMENTS);
 
         // Rank studios
         ArrayList<Agent> studios = Cleaner.rankStudios(movies);
-        studios.sort(Agent.MOVIE_INVOLEMENTS);
+        //movies = Cleaner.rankStudios2(movies);
+        movies = Cleaner.rankStudios3(movies);
+        //studios.sort(Agent.MOVIE_INVOLEMENTS);
 
-        for (Agent actor : actors) {
-            System.out.println(actor.name + " rank: " + actor.rank);
-        }
+        System.out.println("Movies count: " + movies.size());
 
         csv.write("movie_samples_cleaned.csv", new CSVWriteProc() {
             public void process(CSVWriter out) {
-                out.writeNext("id", "title", "lenght", "MPAA rating", "Release date", "Budget", "Revenue", "IMDB ID", "TMDB ID", "Awards", "Actors", "Directors", "Writers", "Studios", "Languages", "Genres", "Countries");
+                //out.writeNext("id", "title", "lenght", "MPAA rating", "Release date", "Budget", "Revenue", "IMDB ID", "TMDB ID", "Awards", "Actors", "Directors", "Writers", "Studios", "Languages", "Genres", "Countries");
+                out.writeNext("id", "title", "lenght", "MPAA rating", "Release date",
+                        "Budget", "Revenue", "IMDB ID", "TMDB ID", "Actor1", "Actor2",
+                        "Actor3", "Actor4", "Actor1rank", "Actor2rank", "Actor3rank",
+                        "Actor4rank", "Director", "DirectorRank",
+                        "Writer1", "Writer2", "Writer1Rank", "Writer2Rank", "Studio", "StudioRank", "Language", "Genre", "Country");
+                
                 
                 for(Movie mov : movies) {
+                    
+//                    String studioRank;
+//                    if (mov.studios.get(0).movieInvolvements == null) {
+//                        System.out.println("Nullpointer: " + mov.title);
+//                        studioRank = "";
+//                    }  else {
+//                        studioRank = mov.studios.get(0).movieInvolvements.toString();
+//                    }
+                    
                     out.writeNext(
                             String.valueOf(mov.id),
                             mov.title,
@@ -328,16 +351,39 @@ public class Main {
                             String.valueOf(mov.revenue),
                             String.valueOf(mov.imdbID),
                             String.valueOf(mov.tmdbID),
-                            mov.awards,
                             
                             // Remove the brackets that surround Collections
-                            removeBrackets(mov.actors.toString()),
-                            removeBrackets(mov.directors.toString()),
-                            removeBrackets(mov.writers.toString()),
-                            removeBrackets(mov.studios.toString()),
-                            removeBrackets(mov.languages.toString()),
-                            removeBrackets(mov.genres.toString()),
-                            removeBrackets(mov.countries.toString()));
+//                            removeBrackets(mov.actors.get(0)),
+//                            removeBrackets(mov.directors.toString()),
+//                            removeBrackets(mov.writers.toString()),
+//                            removeBrackets(mov.studios.toString()),
+//                            removeBrackets(mov.languages.toString()),
+//                            removeBrackets(mov.genres.toString()),
+//                            removeBrackets(mov.countries.toString()));
+                            
+                            mov.actors.get(0).toString(),
+                            mov.actors.get(1).toString(),
+                            mov.actors.get(2).toString(),
+                            mov.actors.get(3).toString(),
+                            mov.actors.get(0).movieInvolvements.toString(),
+                            mov.actors.get(1).movieInvolvements.toString(),
+                            mov.actors.get(2).movieInvolvements.toString(),
+                            mov.actors.get(3).movieInvolvements.toString(),
+                            
+                            mov.directors.get(0).toString(),
+                            mov.directors.get(0).movieInvolvements.toString(),
+                            
+                            mov.writers.get(0).toString(),
+                            mov.writers.get(0).movieInvolvements.toString(),
+                            mov.writers.get(1).toString(),
+                            mov.writers.get(1).movieInvolvements.toString(),
+                            
+                            mov.studios.get(0).toString(),
+                            mov.studios.get(0).movieInvolvements.toString(),
+                            
+                            mov.languages.get(0),
+                            mov.genres.get(0),
+                            mov.countries.get(0));
                 }
             }
         });

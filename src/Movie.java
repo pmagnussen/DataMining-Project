@@ -24,13 +24,14 @@ public class Movie {
     public int imdbID;
     public int tmdbID;
     public String awards;
-    public HashSet<Agent> actors = new HashSet<>();
-    public HashSet<Agent> directors = new HashSet<>();
-    public HashSet<Agent> writers = new HashSet<>();
-    public HashSet<Agent> studios = new HashSet<>();
-    public HashSet<String> languages = new HashSet<>();
-    public HashSet<String> genres = new HashSet<>();
-    public HashSet<String> countries = new HashSet<>();
+    public ArrayList<Agent> actors = new ArrayList<>();
+    public ArrayList<Agent> directors = new ArrayList<>();
+    public ArrayList<Agent> writers = new ArrayList<>();
+    public ArrayList<Agent> studios = new ArrayList<>();
+    public ArrayList<String> languages = new ArrayList<>();
+    public ArrayList<String> genres = new ArrayList<>();
+    public ArrayList<String> countries = new ArrayList<>();
+    public boolean add = true;
     
     public Movie() {
         
